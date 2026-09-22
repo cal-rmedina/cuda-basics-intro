@@ -109,20 +109,20 @@ If nvcc is installed but the command is not found, add the CUDA bin directory to
 Append the following lines to ~/.bashrc (file located in home/YOUR_USER_NAME/.bashrc):
 
 ```
-export PATH=/usr/local/cuda-13.3/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda-13.3/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export PATH=/usr/local/YOUR_CUDA_PATH/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/YOUR_CUDA_PATH/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 ```
 
 Apply the changes:
 
 ```
-source ~/.bashrc
+$source ~/.bashrc
 ```
 
 Verify that nvcc is available:
 
 ```
-which nvcc
-nvcc --version
+$which nvcc
+$nvcc --version
 ```
 
