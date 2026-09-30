@@ -4,17 +4,24 @@
 
 __global__ void print_threads_id_kernel() {
 
-    printf("block-%u, thread(%u, %u, %u)\n",
-        blockIdx.x, threadIdx.x, threadIdx.y, threadIdx.z);
+    // 1D output for cleaner visualization
+    printf("block-%u, thread-%u\n", blockIdx.x, threadIdx.x);
+
+/*
+    // 3D output
+    printf("block(%u, %u, %u) thread(%u, %u, %u)\n",
+	blockIdx.x, blockIdx.y, blockIdx.z,
+	threadIdx.x, threadIdx.y, threadIdx.z);
+*/
 }
 
-// TODO 0: Run the program, check 1st kernel lauch, modify to see output
+// TODO 0: Run the program
 //
-//         How many threads per thread-block are launched?
-//         How many blocks are launched?
-//         How many output lines are expected (from the kernel)?
-//         What are the thread-block & grid dimensions?
-//         What is the usage of cudaDeviceSynchronize?
+//         0-a) How many threads per thread-block are launched?
+//         0-b) How many blocks are launched?
+//         0-c) How many output lines are expected (from the kernel)?
+//         0-d) What are the thread-block & grid dimensions?
+//         0-e) What is the usage of cudaDeviceSynchronize?
 
 int main() {
 
@@ -26,16 +33,16 @@ int main() {
     const unsigned int max_threads_per_block = prop.maxThreadsPerBlock;
     printf("Max thread-block size: %u\n", max_threads_per_block);
 
-// TODO 1: Change the thread-block (1D -> 2D) & check the output
-//
-//         How many threads per thread-block are launched (2D)?
-//         How many output lines are expected (from the kernel)?
-//         What are the thread-block & grid dimensions?
-
     dim3 thread_block(threads);
 //    dim3 thread_block(threads, threads);
 
-    // 1st kernel launch
+// TODO 1: Run the program with 2D thread-block (instead of 1D)
+//
+//         1-a) How many threads per thread-block are launched?
+//         1-b) Can we launch 3D kernels?
+//         1-c) What is the max number of threads per thread-block?
+
+    // kernel launch
     print_threads_id_kernel<<<1, thread_block>>>();
 //    cudaDeviceSynchronize();
 
