@@ -20,7 +20,14 @@ void two_vec_addition(
     const unsigned int* h_b,
     unsigned int* h_c) {
 
+    // i E (0, elements-1)
     for (unsigned int i = 0; i < elements; ++i) {
+        // h_c[0] = h_a[0] + h_b[0];
+        // h_c[1] = h_a[1] + h_b[1];
+        // h_c[2] = h_a[2] + h_b[2];
+        // h_c[3] = h_a[3] + h_b[3];
+        // h_c[4] = h_a[4] + h_b[4];
+        // ...
         h_c[i] = h_a[i] + h_b[i];
     }
 }
@@ -56,10 +63,12 @@ __global__ void two_vec_addition_kernel(
 //         0-c) What is the usage of the word "const" on the function definitions?
 //         0-d) What is the function of the assert after the function call?
 
+
+// main function (Host)
 int main() {
 
     // Elements and memory size
-    constexpr unsigned int elements = 1 << 10;
+    constexpr unsigned int elements = 1 << 10; // 1024
     constexpr size_t elements_size = elements * sizeof(unsigned int);
 
     // Host array allocation, 3 arrays needed
@@ -71,9 +80,12 @@ int main() {
     cudaMallocHost(&h_c, elements_size);
 
     // Element initialization for arrays a & b
+    // a = (0, 1, 2 ..., elements - 1)
+    // b = (0, 1, 2 ..., elements - 1)
     initialize_array_with_global_id( elements, h_a);
     initialize_array_with_global_id( elements, h_b);
 
+    // c = (0, 2, 4, ..., 2( elements - 1))
     two_vec_addition( elements, h_a, h_b, h_c);
 
     // Checking that the host array is correctly set
