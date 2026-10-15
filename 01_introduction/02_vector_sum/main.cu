@@ -37,6 +37,27 @@ __global__ void initialize_array_with_global_id_kernel(
     const unsigned int elements,
     unsigned int* d_array_id) {
 
+    // Compute the global id of the current thread
+    // if 32 threads are launched then blockDim.x = 32
+
+    // block = 0
+    // tid =  0 * 32 + 0 = 0
+    // tid =  0 * 32 + 1 = 1
+    // tid =  0 * 32 + 2 = 2
+    // tid =  0 * 32 + 3 = 3
+    //            ...
+    // tid =  0 * 32 + 31 = 31
+    //
+    // block = 1
+    // tid =  1 * 32 + 0 = 32
+    // tid =  1 * 32 + 1 = 33
+    // tid =  1 * 32 + 2 = 34
+    // tid =  1 * 32 + 3 = 35
+    //           ...
+    // tid =  1 * 32 + 31 = 63
+                ...
+    // tid == elements -> stop
+
     const unsigned int tid =  blockIdx.x * blockDim.x + threadIdx.x;
     if (tid < elements) {
         d_array_id[tid] = tid;
