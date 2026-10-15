@@ -5,7 +5,8 @@
 // __global__ -> function called from the host (CPU) to the device (GPU)
 __global__ void hello_from_thread_kernel() {
 
-    printf("Hello from thread %u, block %u\n", threadIdx.x, blockIdx.x);
+    printf("Hello from thread %u, block %u with dim %u\n",
+        threadIdx.x, blockIdx.x, blockDim.x );
 }
 
 // Host (CPU) function
@@ -18,10 +19,12 @@ void hello_from_thread() {
 int main() {
 
     // Host function
-//    hello_from_thread();
+    hello_from_thread();
 
-    // Kernel launch
-    hello_from_thread_kernel<<<2, 16>>>();
+    // Kernel launch <<<blocks, threads>>> 
+    hello_from_thread_kernel<<<2, 4>>>();
+
+    // Wating for the GPU to finish all the current tasks
     cudaDeviceSynchronize();
 
     return 0;
