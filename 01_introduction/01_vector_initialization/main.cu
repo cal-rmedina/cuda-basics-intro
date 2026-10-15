@@ -30,11 +30,18 @@ __global__ void initialize_array_with_global_id_kernel(
 int main() {
 
     // Elements and memory size
-    constexpr unsigned int elements = 1 << 10;
-    constexpr size_t elements_size = elements * sizeof(unsigned int);
 
-    // Host array allocation
+    // explanation of the << operator (binario) 1 -> 1000000000 
+    constexpr unsigned int elements = 1 << 10; // 2^10 = 1024
+
+    // Reserve the memory space for those elements (4 bytes per element)
+//    constexpr size_t elements_size = elements * sizeof(unsigned int);
+    constexpr size_t elements_size = elements * 2;
+
+    // Host array allocation, first pointer declaration
     unsigned int *h_array_id;
+
+    // cuda Memory allocation host
     cudaMallocHost(&h_array_id, elements_size);
 
     initialize_array_with_global_id( elements, h_array_id);
