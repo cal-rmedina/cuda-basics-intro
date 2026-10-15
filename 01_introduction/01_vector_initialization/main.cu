@@ -19,6 +19,7 @@ __global__ void initialize_array_with_global_id_kernel(
     const unsigned int elements,
     unsigned int* d_array_id) {
 
+    // Compute the global thread
     const unsigned int tid =  blockIdx.x * blockDim.x + threadIdx.x;
     d_array_id[tid] = tid;
 }
@@ -35,8 +36,7 @@ int main() {
     constexpr unsigned int elements = 1 << 10; // 2^10 = 1024
 
     // Reserve the memory space for those elements (4 bytes per element)
-//    constexpr size_t elements_size = elements * sizeof(unsigned int);
-    constexpr size_t elements_size = elements * 2;
+    constexpr size_t elements_size = elements * sizeof(unsigned int);
 
     // Host array allocation, first pointer declaration
     unsigned int *h_array_id;
@@ -63,13 +63,13 @@ int main() {
 //         1-d) Are there idle threads after the kernel modification?
 //         1-e) Are we accessing elements out of bounds?
 //         1-f) Do we need cudaDeviceSynchronize after the kernel launch?
-/*
+
     // Device memory allocation
     unsigned int *d_array_id;
     cudaMalloc(&d_array_id, elements_size);
 
     // 1D thread-block size 
-    constexpr unsigned int threads = 1 << 5;
+    constexpr unsigned int threads = 32;
     dim3 thread_block(threads);
 
     // Allocating enough threads to cover the array
@@ -90,7 +90,7 @@ int main() {
 
     // Device memory free
     cudaFree(d_array_id);
-*/
+
 
     // Host memory free
     cudaFreeHost(h_array_id);
