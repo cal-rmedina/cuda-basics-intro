@@ -55,9 +55,8 @@ __global__ void initialize_array_with_global_id_kernel(
     // tid =  1 * 32 + 3 = 35
     //           ...
     // tid =  1 * 32 + 31 = 63
-                ...
+    //            ...
     // tid == elements -> stop
-
     const unsigned int tid =  blockIdx.x * blockDim.x + threadIdx.x;
     if (tid < elements) {
         d_array_id[tid] = tid;
@@ -114,7 +113,6 @@ int main() {
 
         // Printing output for visual inspection
 //        printf("c[%u] = %u, expected: %u\n", i, h_c[i], 2*i );
-
 //        assert(h_c[i] == i);
     }
 
