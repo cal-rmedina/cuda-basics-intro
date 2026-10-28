@@ -25,9 +25,9 @@ int main() {
     constexpr unsigned int blocks = 100;
     constexpr unsigned int threads = 64;
     constexpr unsigned int total_threads = blocks * threads;
+    constexpr size_t array_size = total_threads * sizeof(unsigned int);
 
     unsigned int *d_thread_block_sum;
-    constexpr size_t array_size = total_threads * sizeof(unsigned int);
 
     cudaMalloc(&d_thread_block_sum, array_size);
 
@@ -35,8 +35,17 @@ int main() {
 
     add_threads_per_thread_block_kernel<<<blocks, threads>>>(d_thread_block_sum);
 
-    // Free memory
+
+    unsigned int *h_thread_block_sum;
+
+    cudaMallocHost(&h_thread_block_sum, array_size);
+
+    cudaMemcpy(h_thread_block_sum, d_thread_block_sum, array_size,
+        cudaMemcpyDeviceToHost);
+
+
     cudaFree(d_thread_block_sum);
+    cudaFreeHost(h_thread_block_sum);
 
 //    popNvtxRange(flag);
 
