@@ -158,6 +158,13 @@ int main() {
     cudaFree(d_c);
 */
 
+// TODO 2: Initialize the vectors on the device, don't use the host initialization
+//
+//         2-a) Identify the cudaMallocHost and remove them
+//         2-b) Use the kernel initialize_array_with_global_id_kernel
+//         2-c) Copy just the needed arrays to the host
+//         2-d) Modify the assert version to check that the results are correct
+
     // Host memory free
     cudaFreeHost(h_a);
     cudaFreeHost(h_b);
