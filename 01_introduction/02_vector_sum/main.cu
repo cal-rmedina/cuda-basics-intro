@@ -4,6 +4,8 @@
 
 #include <cuda_runtime.h>
 
+#include "../../nvtx_functions.h"
+
 // Host code
 void initialize_array_with_global_id(
     const unsigned int elements,
@@ -122,7 +124,7 @@ int main() {
 //         1-b) Discuss the way to execute the sum on the device
 //         1-c) Where does the data (arrays) should be to be used by
 //              two_vec_addition_kernel?
-/*
+
     // Set host vector to 0 for fair comparison 
     for (unsigned int i = 0; i < elements; ++i) {
         h_c[i] = 0;
@@ -152,11 +154,15 @@ int main() {
         assert(h_c[i] == 0);
     }
 
-    // Device memory free
+    uint32_t green = 0xFF00FF00;
+    nvtxRangeId_t time_free_flag = pushNvtxRangeWithColor("free_time", green);
+
+    // Device memory 
     cudaFree(d_a);
     cudaFree(d_b);
     cudaFree(d_c);
-*/
+
+    popNvtxRange(time_free_flag);
 
 // TODO 2: Initialize the vectors on the device, don't use the host initialization
 //
@@ -166,10 +172,15 @@ int main() {
 //         2-d) Modify the assert version to check that the results are correct
 
     // Host memory free
+
+    uint32_t yellow = 0xFFFFFF00;
+    nvtxRangeId_t host_time_free_flag = pushNvtxRangeWithColor("free_time_host", yellow);
+
     cudaFreeHost(h_a);
     cudaFreeHost(h_b);
     cudaFreeHost(h_c);
 
+    popNvtxRange(host_time_free_flag);
     return 0;
 }
 
