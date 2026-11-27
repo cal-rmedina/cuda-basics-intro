@@ -18,8 +18,7 @@ int main() {
     unsigned int counter = 0;
 
     // Code-block to be tested with nsys
-    uint32_t green = 0x00FF00FF;
-
+//    uint32_t green = 0x00FF00FF;
 
     // TODO: Generate sample_points random points (x,y) and check if they are
     //	     inside the quarter circle on the positive quadrant
